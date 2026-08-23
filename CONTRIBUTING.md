@@ -59,10 +59,13 @@ missing executable. Install the system packages alongside the browser:
 npx playwright install --with-deps chromium
 ```
 
-`--with-deps` uses the system package manager and will ask for elevation. It is
-Linux-only; on macOS and Windows the plain `browser:install` above is all that
-is needed, and this is why CI — which runs on Linux — uses the `--with-deps`
-form while local setup does not.
+`--with-deps` uses the system package manager and will ask for elevation. The
+flag is accepted on every platform, but it only installs anything on Linux, and
+only on the distributions Playwright ships a package list for (Debian and
+Ubuntu). Elsewhere — macOS, Windows, or an unsupported distribution — it
+degrades to a plain browser download, so the `browser:install` script above is
+all you need. That is why CI, which runs on Ubuntu, uses the `--with-deps` form
+while local setup does not.
 
 **Still failing.** Check that `npx playwright --version` matches the
 `playwright` version resolved in `package-lock.json` (the scanner depends on

@@ -17,7 +17,7 @@ test("curated records have unique matching IDs and non-empty Vietnamese fields",
   const entries = Object.entries(curatedVietnameseRules);
   const ruleIds = entries.map(([, entry]) => entry.ruleId);
 
-  assert.equal(entries.length, 11);
+  assert.equal(entries.length, 12);
   assert.equal(new Set(ruleIds).size, entries.length);
 
   for (const [key, entry] of entries) {
@@ -33,7 +33,7 @@ test("curated records have unique matching IDs and non-empty Vietnamese fields",
   }
 });
 
-// The registry currently curates these eleven rules. The list is written out
+// The registry currently curates these twelve rules. The list is written out
 // rather than derived from curatedVietnameseRules so that a rule silently
 // disappearing from the registry fails here instead of shrinking the loop
 // below to nothing. The cost is that adding a rule means adding it here too --
@@ -51,6 +51,7 @@ const curatedRuleIds = [
   "heading-order",
   "aria-command-name",
   "aria-input-field-name",
+  "list",
 ];
 
 const requiredTextFields = ["title", "explanation", "whyItMatters", "remediation"];
@@ -107,6 +108,18 @@ test("html-lang-valid returns curated Vietnamese guidance", () => {
   assert.equal(guidance.status, "CURATED");
   assert.match(guidance.title, /ngôn ngữ/);
   assert.ok(guidance.remediation.includes("BCP 47"));
+});
+
+test("list returns curated Vietnamese guidance", () => {
+  const guidance = getVietnameseGuidance("list");
+
+  assert.equal(guidance.status, "CURATED");
+  assert.match(guidance.title, /Danh sách/);
+  // The rule is about *direct* children specifically -- a list whose <li>s
+  // contain wrappers is fine. The remediation has to say which one it means,
+  // or it reads as "no wrappers anywhere".
+  assert.ok(guidance.remediation.includes("con trực tiếp"));
+  assert.ok(guidance.explanation.includes("<li>"));
 });
 
 test("unknown rule returns only the explicit unavailable state", () => {

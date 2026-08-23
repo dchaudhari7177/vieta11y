@@ -119,6 +119,18 @@ export const curatedVietnameseRules: Record<
     remediation:
       "Ưu tiên phần tử HTML gốc có nội dung văn bản rõ nghĩa. Khi thực sự cần role ARIA, cung cấp tên từ nội dung, aria-label hoặc aria-labelledby và bảo đảm hành vi bàn phím phù hợp với role; ARIA không tự bổ sung hành vi tương tác.",
   },
+  list: {
+    ruleId: "list",
+    title: "Danh sách chưa đúng cấu trúc",
+    explanation:
+      "Phần tử <ul> hoặc <ol> có con trực tiếp không được phép. Ở vị trí con trực tiếp, danh sách chỉ chấp nhận <li> (hoặc phần tử mang role=\"listitem\"), cùng với <script> và <template>. Một phần tử khác đặt ngay trong danh sách, thường là <div> hoặc <p> dùng để bọc và tạo kiểu, sẽ cắt đứt quan hệ giữa danh sách và các mục của nó.",
+    whyItMatters:
+      "Screen reader thông báo danh sách kèm số lượng mục và cho phép người dùng nhảy giữa các mục. Khi có phần tử lạ nằm trực tiếp trong danh sách, quan hệ cha con không còn được trình bày đúng: số mục có thể sai, hoặc phần nội dung đó không được đọc như một mục của danh sách. Người dùng mất manh mối để biết nội dung gồm bao nhiêu phần và đang ở phần nào.",
+    remediation:
+      "Chỉ đặt <li> làm con trực tiếp của <ul> và <ol>; đưa mọi nội dung khác, kể cả phần tử bọc để tạo kiểu, vào bên trong <li>. Nếu phần tử bọc chỉ phục vụ trình bày, hãy dùng CSS trên chính <li> thay vì thêm thẻ. Khi buộc phải dựng danh sách từ phần tử khác, đặt role=\"list\" và role=\"listitem\" thành đúng cặp cha con, không đặt thiếu một vế.",
+    example:
+      '<ul>\n  <li><span class="badge">Mới</span> Báo cáo tháng 8</li>\n</ul>',
+  },
   "aria-input-field-name": {
     ruleId: "aria-input-field-name",
     title: "Trường nhập ARIA không có tên có thể truy cập",

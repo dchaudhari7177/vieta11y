@@ -110,7 +110,7 @@ test("html-lang-valid returns curated Vietnamese guidance", () => {
   assert.ok(guidance.remediation.includes("BCP 47"));
 });
 
-test("list returns curated Vietnamese guidance", () => {
+test("list guidance covers direct children and preserved listitem semantics", () => {
   const guidance = getVietnameseGuidance("list");
 
   assert.equal(guidance.status, "CURATED");
@@ -120,6 +120,10 @@ test("list returns curated Vietnamese guidance", () => {
   // or it reads as "no wrappers anywhere".
   assert.ok(guidance.remediation.includes("con trực tiếp"));
   assert.ok(guidance.explanation.includes("<li>"));
+  // A native <li> can still fail axe's list rule when another role, such as
+  // button, replaces its listitem semantics. Keep that edge case actionable.
+  assert.ok(guidance.explanation.includes("role khác ghi đè"));
+  assert.ok(guidance.remediation.includes("<button>"));
 });
 
 test("unknown rule returns only the explicit unavailable state", () => {
